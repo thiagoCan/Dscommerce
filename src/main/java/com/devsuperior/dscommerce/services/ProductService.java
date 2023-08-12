@@ -46,15 +46,20 @@ public class ProductService {
 	@Transactional
 	public ProductDTO update(Long id, ProductDTO dto) {
 		//instanciando pelo id do BD;
-		/*.getReferenceById -> não vai no banco de dados
-		                     e é monitorado pela JPA*/
+				/*.getReferenceById -> não vai no banco de dados
+				                     e é monitorado pela JPA*/
 		Product entity = repository.getReferenceById(id);
 		copyDtoToEntity(dto, entity);
 		entity = repository.save(entity);
 		
 		return new ProductDTO(entity);
 	}
-
+	
+	@Transactional
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
+	
 	private void copyDtoToEntity(ProductDTO dto, Product entity) {
 		entity.setName(dto.getName());
 		entity.setDescription(dto.getDescription());
